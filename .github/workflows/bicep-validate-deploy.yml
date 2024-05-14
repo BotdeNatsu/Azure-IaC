@@ -28,6 +28,19 @@ jobs:
     environment: production
 
     steps:
+
+    - name: json-variables
+      # You may pin to the exact commit or the version.
+      # uses: jnus/json-variables@8a835f95f0f4e87cd98330ca9e33ad6482fdf9b2
+      uses: jnus/json-variables@v1.0
+      with:
+        # Current scope - e.g. Dev, DevTest etc.
+        scope: production
+        # full path and filename of the configuration file or just the filename
+        configFile: 'main_parameters.json'
+        # All the secrets serialized as json
+        secrets: '${{ toJson(secrets) }}'
+    
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
     - name: Checkout
