@@ -25,6 +25,7 @@ jobs:
   bicep-unit-tests:
     name: 'Bicep Unit Tes'
     runs-on:  ubuntu-latest
+    environment: production
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -54,7 +55,7 @@ jobs:
           az deployment sub validate \
             --name validate-${{ github.run_id }} \
             --template-file main.bicep \
-            --location ${{ env.AZURE_RG_LOCATION }}
+            --location ${{ vars.AZURE_RG_LOCATION }}
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
