@@ -1,0 +1,83 @@
+# This is a basic workflow to help you get started with Actions
+
+name: 'IaC Bicep Validation and Deploy'
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: 
+    - main
+  #pull_request:
+    #branches:
+    #- main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  bicep-unit-tests:
+    name: 'Bicep Unit Tes'
+    runs-on:  ubuntu-latest
+    environment: production
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    # Download all the code into the host
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Authenticate to Az CLI using OIDC
+    - name: Azure Login
+      uses: Azure/login@v2.1.0
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Checks that all Bicep configuration files adhere to a canonical format
+    - name: Bicep Lint
+      uses: Azure/cli@v2
+      with:
+        inlineScript: az bicep build --file main.bicep    
+
+    # Validate whether a template is valid at the selected scope
+    - name: Bicep Validate
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+          az deployment sub validate \
+            --name validate-${{ github.run_id }} \
+            --template-file main.bicep \
+            --location ${{ vars.AZURE_RG_LOCATION }}
+
+    # Perform a security scan of the bicep code using checkov
+    - name: Run Checkov action
+      id: checkov
+      uses: bridgecrewio/checkov-action@master
+      with: 
+        framework: bicep
+    
+  # This workflow contains a second job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
