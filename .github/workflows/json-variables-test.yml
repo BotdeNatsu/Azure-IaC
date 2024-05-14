@@ -23,6 +23,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+      - name: view the environment context
+        shell: bash
+        run: echo "$ENVIRONMENT_CONTEXT"
+        env:
+          ENVIRONMENT_CONTEXT: ${{ github.ref_name }}
+
       - name: view the variables context
         shell: bash
         run: echo "$VARIABLES_CONTEXT"
