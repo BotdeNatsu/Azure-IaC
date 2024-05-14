@@ -62,14 +62,6 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with: 
         framework: bicep
-
-    # Upload results to GitHub Advanced Security
-    - name: Upload SARIF file
-      if: success() || failure()
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: results.sarif
-        category: checkov
     
   # This workflow contains a second job called "build"
   build:
