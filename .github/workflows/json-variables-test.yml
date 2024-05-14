@@ -19,6 +19,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+      - name: view the secrets context 1
+        shell: bash
+        run: echo "$SECRETS_CONTEXT"
+
+      - name: view the secrets context
+        shell: bash
+        run: echo "$SECRETS_CONTEXT"
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}    
+
+
       - name: Render json
         # You may pin to the exact commit or the version.
         # uses: loveloper44/render-json-action@b4e05d10a5f9dfb123737039dfd19f5ee2e981d8
