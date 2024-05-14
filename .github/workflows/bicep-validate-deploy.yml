@@ -25,7 +25,8 @@ jobs:
   bicep-validation:
     name: 'Bicep Validation and What If'
     runs-on:  ubuntu-latest
-    environment: production
+    environment:
+      name: ${{ github.ref_name }}
 
     steps:
 
@@ -117,7 +118,8 @@ jobs:
     # The type of runner that the job will run on
     name: 'Deployment'
     runs-on: ubuntu-latest
-    environment: production
+    environment:
+      name: ${{ github.ref_name }}
     needs: [bicep-validation]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
