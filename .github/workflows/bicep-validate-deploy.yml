@@ -22,8 +22,8 @@ permissions:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  bicep-unit-tests:
-    name: 'Bicep Unit Tes'
+  bicep-validation:
+    name: 'Bicep Validation and What If'
     runs-on:  ubuntu-latest
     environment: production
 
@@ -63,14 +63,6 @@ jobs:
       uses: bridgecrewio/checkov-action@master
       with: 
         framework: bicep
-
-  bicep-whatif:
-    name: 'Bicep Whatif'
-    runs-on:  ubuntu-latest
-    environment: production
-    needs: [bicep-unit-tests]
-
-    steps:
     
     # Preview changes
     - name: What-If
@@ -108,10 +100,12 @@ jobs:
       
     
   # This workflow contains a second job called "build"
-  build:
+  bicep-deploy:
     # The type of runner that the job will run on
+    name: 'Deployment'
     runs-on: ubuntu-latest
-    needs: [bicep-whatif]
+    environment: production
+    needs: [bicep-validation]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
