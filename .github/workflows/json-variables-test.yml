@@ -26,6 +26,7 @@ jobs:
         with:
           # Json file path
           json: 'Render-json.json'
+        continue-on-error: True
 
       - name: json-variables
         # You may pin to the exact commit or the version.
