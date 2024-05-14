@@ -15,6 +15,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment: production
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -37,7 +38,7 @@ jobs:
         uses: jnus/json-variables@v1.0
         with:
           # Current scope - e.g. Dev, DevTest etc.
-          scope: Develop
+          scope: production
           # full path and filename of the configuration file or just the filename
           configFile: 'Json-variables.json'
           # All the secrets serialized as json
