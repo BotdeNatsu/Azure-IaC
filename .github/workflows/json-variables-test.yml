@@ -75,12 +75,13 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           #dir: # optional   
 
-      - name: Set environment specific variables
-        uses: jnus/json-variables@4a442c701d13455259c65b315c7dce51d1c9edf7
+      - name: Replace values in JSON file
+        uses: tnikFi/json-file-transform@v1
         with:
-          scope: ${{ github.ref_name }}
-          configFile: 'parameters_json.json'
-          secrets: '${{ toJson(vars) }}'
+          files: 'parameters_json.json'
+          key-value-pairs: |
+            parameters.locationRG.value=${{ vars.environment }}
+            parameters.locationSKU.value=S1
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
