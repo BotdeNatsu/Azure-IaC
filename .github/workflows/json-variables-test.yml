@@ -35,6 +35,29 @@ jobs:
         env:
           VARIABLES_CONTEXT: ${{ toJson(vars) }}
 
+       
+      - name: Merge JSON with template
+        # You may pin to the exact commit or the version.
+        # uses: mpmxyz/merge-json-with-template@79884260de99e04a77e8db68d72c8544ee03156c
+        uses: mpmxyz/merge-json-with-template@v1.0.0
+        with:
+          # JSON Template that will be merged into the target file ($VAR/$(VAR) will be replaced without any substitution, $$ will become $)
+          source-file: ${{ toJson(vars) }}
+          # JSON file to be merged
+          target-file: 'parameters_json.json'
+          # Path within the source file that will be copied from
+          #source-path: # optional, default is 
+          # Path within the target file that will be pasted into (sibling paths remain unchanged)
+          #target-path: # optional, default is 
+          # Paths relative to the source path that will not be copied from (separated by newline and trimmed from surrounding whitespace, * to match all paths)
+          #skipped-source-paths: # optional, default is 
+          # Paths relative to the target path that will be removed unless overridden by the source file (separated by newline and trimmed from surrounding whitespace, * to match all paths)
+          #skipped-target-paths: # optional, default is 
+          # Paths relative to the source and target that will merge by appending instead of overwriting (separated by newline and trimmed from surrounding whitespace, * to match all paths)
+          #appended-array-paths: # optional, default is 
+          # A JSON file with values that will substitute $KEYS within the template, overrides the default replacement with environment variables
+          #substitution-file: # optional, default is     
+
       - name: view the secrets context
         shell: bash
         run: echo "$SECRETS_CONTEXT"
