@@ -54,3 +54,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           echo $VARIABLES_CONTEXT
+          echo Fin 1
+          echo ${{ toJson(vars) }}
+          echo Fin
