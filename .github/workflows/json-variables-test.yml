@@ -35,6 +35,12 @@ jobs:
         env:
           VARIABLES_CONTEXT: ${{ toJson(vars) }}    
 
+      - name: view the variables context just
+        shell: bash
+        run: echo "$VARIABLES_CONTEXT"
+        env:
+          VARIABLES_CONTEXT: ${{ vars }}    
+
       - name: view the secrets context
         shell: bash
         run: echo "$SECRETS_CONTEXT"
@@ -53,7 +59,3 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          echo $VARIABLES_CONTEXT
-          echo Fin 1
-          echo ${{ toJson(vars) }}
-          echo Fin
