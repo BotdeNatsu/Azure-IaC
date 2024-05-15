@@ -63,8 +63,8 @@ jobs:
           az deployment sub validate \
             --name validate-${{ github.run_id }} \
             --template-file main.bicep \
-            --parameters ${{ toJson(vars) }} \
-            --location ${{ vars.AZURE_RG_LOCATION }}
+            --location ${{ vars.AZURE_RG_LOCATION }} \
+            --parameters ${{ toJson(vars) }}
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
@@ -81,7 +81,6 @@ jobs:
           az deployment sub what-if \
             --name whatif-${{ github.run_id }} \
             --template-file main.bicep \
-            --parameters ${{ toJson(vars) }} \
             --location ${{ vars.AZURE_RG_LOCATION }} > whatif
 
     # Create string output of Whatif
