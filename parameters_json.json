@@ -1,5 +1,4 @@
 {
-  "ENVIRONMENT": "dev",
   "LOCATIONRG": "eastus",
   "RESOURCEGROUPNAME": "RG-Training-INS-Interno"
 }
