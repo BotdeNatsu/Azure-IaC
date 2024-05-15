@@ -63,12 +63,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: view the variables context 22
-        shell: bash
-        run: |
-          set $VARIABLES_CONTEXT2 = ${{ toJson(vars) }}
-          echo Muestra
-          echo $VARIABLES_CONTEXT2
 
       - name: Create-json 2
         # You may pin to the exact commit or the version.
@@ -84,7 +78,7 @@ jobs:
 
       - name: Run a one-line script Create Json String
         run: |
-          jq -n --arg appname "JsonTest" '{$schema: "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#", contentVersion: "1.0.0.0", parameters: {resourceGroupName:{value:"ValorPrueba"}}}' > process.json    
+          jq -n '{$schema: "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#", contentVersion: "1.0.0.0", parameters: {resourceGroupName:{value:"ValorPrueba"}}}' > process.json    
 
       - name: Replace values in JSON file
         uses: tnikFi/json-file-transform@v1
