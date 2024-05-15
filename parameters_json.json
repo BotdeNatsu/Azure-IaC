@@ -1,4 +1,4 @@
 {
-  "LOCATIONRG": "eastus",
-  "RESOURCEGROUPNAME": "RG-Training-INS-Interno"
+  "RESOURCEGROUPNAME": "RG-Training-INS-Interno",
+  "LOCATIONRG": "eastus"
 }
