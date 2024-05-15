@@ -75,6 +75,10 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           #dir: # optional   
 
+      - name: Run a one-line script Create Json String
+        run: |
+          jq -n --arg appname "JsonTest" '{apps: [ {name: $appname, script: "./cms/bin/www", watch: false}]}' > process.json    
+
       - name: Replace values in JSON file
         uses: tnikFi/json-file-transform@v1
         with:
@@ -90,6 +94,7 @@ jobs:
           ls
           cat parameters_json2.json
           cat parameters_json.json
+          cat process.json
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
