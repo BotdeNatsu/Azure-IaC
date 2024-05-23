@@ -29,17 +29,20 @@ jobs:
       name: ${{ github.ref_name }}
 
     steps:
-
-    - name: Get the Variables context
-      shell: bash
-      run: echo "$VARIABLES_CONTEXT"
-      env:
-        VARIABLES_CONTEXT: ${{ toJson(vars) }}  
     
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Replace values in JSON file
+      uses: tnikFi/json-file-transform@v1
+      with:
+        files: 'IaC/parameters_json.json'
+        key-value-pairs: |
+          parameters.locationRG.value=${{ vars.locationRG }}
+          parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
+          parameters.environment.value=${{ vars.environment }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
@@ -64,7 +67,7 @@ jobs:
             --name validate-${{ github.run_id }} \
             --template-file IaC/main.bicep \
             --parameters IaC/parameters_json.json \
-            --location ${{ vars.LOCATIONRG }}
+            --location ${{ vars.locationRG }}
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
@@ -82,7 +85,7 @@ jobs:
             --name whatif-${{ github.run_id }} \
             --template-file IaC/main.bicep \
             --parameters IaC/parameters_json.json \
-            --location ${{ vars.LOCATIONRG }} > whatif
+            --location ${{ vars.locationRG }} > whatif
 
     # Create string output of Whatif
     - name: Create String Output
