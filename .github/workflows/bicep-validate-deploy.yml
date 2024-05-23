@@ -34,19 +34,7 @@ jobs:
       shell: bash
       run: echo "$VARIABLES_CONTEXT"
       env:
-        VARIABLES_CONTEXT: ${{ toJson(vars) }}    
-
-    - name: Create-json
-      # You may pin to the exact commit or the version.
-      # uses: jsdaniell/create-json@b8e77fa01397ca39cc4a6198cc29a3be5481afef
-      uses: jsdaniell/create-json@v1.2.3
-      with:
-        # The name of the file to be written. | file.json 
-        name: 'parameters_json.json'
-        # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
-        json: ${{ toJson(vars) }}
-        # Optional subfolder directory to save the json file. | src/ 
-        #dir: # optional        
+        VARIABLES_CONTEXT: ${{ toJson(vars) }}  
     
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
@@ -65,7 +53,7 @@ jobs:
     - name: Bicep Lint
       uses: Azure/cli@v2
       with:
-        inlineScript: az bicep build --file main.bicep    
+        inlineScript: az bicep build --file IaC/main.bicep    
 
     # Validate whether a template is valid at the selected scope
     - name: Bicep Validate
@@ -74,8 +62,8 @@ jobs:
         inlineScript: |
           az deployment sub validate \
             --name validate-${{ github.run_id }} \
-            --template-file main.bicep \
-            --parameters parameters_json.json \
+            --template-file IaC/main.bicep \
+            --parameters IaC/parameters_json.json \
             --location ${{ vars.LOCATIONRG }}
 
     # Perform a security scan of the bicep code using checkov
@@ -92,8 +80,8 @@ jobs:
         inlineScript: |
           az deployment sub what-if \
             --name whatif-${{ github.run_id }} \
-            --template-file main.bicep \
-            --parameters parameters_json.json \
+            --template-file IaC/main.bicep \
+            --parameters IaC/parameters_json.json \
             --location ${{ vars.LOCATIONRG }} > whatif
 
     # Create string output of Whatif
