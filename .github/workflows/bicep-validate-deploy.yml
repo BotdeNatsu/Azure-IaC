@@ -29,23 +29,20 @@ jobs:
       name: ${{ github.ref_name }}
 
     steps:
-
-    - name: json-variables
-      # You may pin to the exact commit or the version.
-      # uses: jnus/json-variables@8a835f95f0f4e87cd98330ca9e33ad6482fdf9b2
-      uses: jnus/json-variables@v1.0
-      with:
-        # Current scope - e.g. Dev, DevTest etc.
-        scope: production
-        # full path and filename of the configuration file or just the filename
-        configFile: 'main_parameters.json'
-        # All the secrets serialized as json
-        secrets: '${{ toJson(secrets) }}'
     
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Replace values in JSON file
+      uses: tnikFi/json-file-transform@v1
+      with:
+        files: 'IaC/parameters_json.json'
+        key-value-pairs: |
+          parameters.locationRG.value=${{ vars.locationRG }}
+          parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
+          parameters.environment.value=${{ vars.environment }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
@@ -59,7 +56,7 @@ jobs:
     - name: Bicep Lint
       uses: Azure/cli@v2
       with:
-        inlineScript: az bicep build --file main.bicep    
+        inlineScript: az bicep build --file IaC/main.bicep    
 
     # Validate whether a template is valid at the selected scope
     - name: Bicep Validate
@@ -68,8 +65,9 @@ jobs:
         inlineScript: |
           az deployment sub validate \
             --name validate-${{ github.run_id }} \
-            --template-file main.bicep \
-            --location ${{ vars.AZURE_RG_LOCATION }}
+            --template-file IaC/main.bicep \
+            --parameters IaC/parameters_json.json \
+            --location ${{ vars.locationRG }}
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
@@ -85,8 +83,9 @@ jobs:
         inlineScript: |
           az deployment sub what-if \
             --name whatif-${{ github.run_id }} \
-            --template-file main.bicep \
-            --location ${{ vars.AZURE_RG_LOCATION }} > whatif
+            --template-file IaC/main.bicep \
+            --parameters IaC/parameters_json.json \
+            --location ${{ vars.locationRG }} > whatif
 
     # Create string output of Whatif
     - name: Create String Output
