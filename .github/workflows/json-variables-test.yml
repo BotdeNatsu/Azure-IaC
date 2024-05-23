@@ -33,19 +33,7 @@ jobs:
         shell: bash
         run: echo "$VARIABLES_CONTEXT"
         env:
-          VARIABLES_CONTEXT: ${{ toJson(vars) }}   
-
-      - name: Create-json
-        # You may pin to the exact commit or the version.
-        # uses: jsdaniell/create-json@b8e77fa01397ca39cc4a6198cc29a3be5481afef
-        uses: jsdaniell/create-json@v1.2.3
-        with:
-          # The name of the file to be written. | file.json 
-          name: 'parameters_json.json'
-          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
-          json: ${{ toJson(vars) }}
-          # Optional subfolder directory to save the json file. | src/ 
-          #dir: # optional    
+          VARIABLES_CONTEXT: ${{ toJson(vars) }}
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script ls
@@ -63,23 +51,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-
-      - name: Create-json 2
-        # You may pin to the exact commit or the version.
-        # uses: jsdaniell/create-json@b8e77fa01397ca39cc4a6198cc29a3be5481afef
-        uses: jsdaniell/create-json@v1.2.3
-        with:
-          # The name of the file to be written. | file.json 
-          name: 'parameters_json2.json'
-          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
-          json: ${{ toJson(vars) }}
-          # Optional subfolder directory to save the json file. | src/ 
-          #dir: # optional   
-
-      - name: Run a one-line script Create Json String
-        run: |
-          jq -n '{$schema: "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#", contentVersion: "1.0.0.0", parameters: {resourceGroupName:{value:"ValorPrueba"}}}' > process.json    
-
       - name: Replace values in JSON file
         uses: tnikFi/json-file-transform@v1
         with:
@@ -93,9 +64,7 @@ jobs:
         run: |
           echo Hello, world!
           ls
-          cat parameters_json2.json
           cat parameters_json.json
-          cat process.json
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
