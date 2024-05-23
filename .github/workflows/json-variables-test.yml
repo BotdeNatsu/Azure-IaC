@@ -54,7 +54,7 @@ jobs:
       - name: Replace values in JSON file
         uses: tnikFi/json-file-transform@v1
         with:
-          files: 'parameters_json.json'
+          files: 'IaC/parameters_json.json'
           key-value-pairs: |
             parameters.locationRG.value=${{ vars.environment }}
             parameters.locationSKU.value=S1
