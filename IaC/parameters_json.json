@@ -10,6 +10,9 @@
     },
     "environment": {
       "value": "dev"
+    },
+    "tenantId": {
+      "value": "371ab23d-884c-40bd-b4d6-36bc3470ef62"
     }
   }
 }
