@@ -18,6 +18,7 @@ resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
     enabledForTemplateDeployment: true
     tenantId: tenantId
     enableSoftDelete: true
+    enablePurgeProtection: true
     softDeleteRetentionInDays: 90
     sku: {
       name: 'standard'
