@@ -63,11 +63,11 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-          az deployment sub validate \
+          az deployment group validate \
             --name validate-${{ github.run_id }} \
+            --resource-group ${{ vars.resourceGroupName }} \
             --template-file IaC/main.bicep \
-            --parameters IaC/parameters_json.json \
-            --location ${{ vars.locationRG }}
+            --parameters IaC/parameters_json.json
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
@@ -81,11 +81,11 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-          az deployment sub what-if \
+          az deployment group what-if \
             --name whatif-${{ github.run_id }} \
+            --resource-group ${{ vars.resourceGroupName }} \
             --template-file IaC/main.bicep \
-            --parameters IaC/parameters_json.json \
-            --location ${{ vars.locationRG }} > whatif
+            --parameters IaC/parameters_json.json > whatif
 
     # Create string output of Whatif
     - name: Create String Output
