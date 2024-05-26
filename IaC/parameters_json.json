@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceGroupName": {
-      "value": "RG-Training-INS-Interno"
+      "value": "rg-clasificadorimagenes-dev-eastus2"
     },
     "locationRG": {
       "value": "eastus"
@@ -13,6 +13,9 @@
     },
     "tenantId": {
       "value": "371ab23d-884c-40bd-b4d6-36bc3470ef62"
+    },
+    "kvName": {
+      "value": "kv-clasimag-dev-eastus2"
     }
   }
 }

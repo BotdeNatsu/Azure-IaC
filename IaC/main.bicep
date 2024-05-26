@@ -1,33 +1,21 @@
 // =========== main.bicep ===========
 targetScope = 'resourceGroup'
 
+//Global Parameters
 param locationRG string
 param resourceGroupName string
 param environment string
 param tenantId string
 
+//Key Vault Parameters
+param kvName string
 
-//kv-clasimag-dev-eastus2
 
-resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
-  name: 'keyVaultName-testinterno'
-  location: locationRG
-  properties: {
-    enabledForDeployment: true
-    enabledForDiskEncryption: true
-    enabledForTemplateDeployment: true
-    tenantId: tenantId
-    enableSoftDelete: true
-    enablePurgeProtection: true
-    softDeleteRetentionInDays: 90
-    sku: {
-      name: 'standard'
-      family: 'A'
-    }
-    networkAcls: {
-      defaultAction: 'Deny'
-      bypass: 'AzureServices'
-    }
+module kv 'modules/keyvault.bicep' = {
+  name: 'KeyVaultDeploy'
+  params:{
+    kvName:kvName
+    locationRG:locationRG
+    tenantId:tenantId
   }
 }
-
