@@ -16,6 +16,8 @@ resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
     enableSoftDelete: true
     enablePurgeProtection: true
     softDeleteRetentionInDays: 90
+    enableRbacAuthorization:true
+    accessPolicies:[]
     sku: {
       name: 'standard'
       family: 'A'
