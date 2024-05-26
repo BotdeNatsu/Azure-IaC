@@ -157,7 +157,7 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     # Deploy template at the selected scope
-    - name: Bicep Validate
+    - name: Bicep Deploy
       uses: Azure/cli@v2
       with:
         inlineScript: |
