@@ -116,7 +116,7 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
-        ls.
+        ls
       
     
   # This workflow contains a second job called "build"
