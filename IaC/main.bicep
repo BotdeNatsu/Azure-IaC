@@ -1,12 +1,21 @@
 // =========== main.bicep ===========
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
+//Global Parameters
 param locationRG string
 param resourceGroupName string
 param environment string
+param tenantId string
+
+//Key Vault Parameters
+param kvName string
 
 
-resource rg 'Microsoft.Resources/resourceGroups@2021-01-01' = {
-  name: resourceGroupName
-  location: locationRG
+module kv 'modules/keyvault.bicep' = {
+  name: 'KeyVaultDeploy'
+  params:{
+    kvName:kvName
+    locationRG:locationRG
+    tenantId:tenantId
+  }
 }

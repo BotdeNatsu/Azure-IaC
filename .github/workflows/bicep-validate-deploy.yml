@@ -35,6 +35,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    # Replace Json values with environment variables values
     - name: Replace values in JSON file
       uses: tnikFi/json-file-transform@v1
       with:
@@ -43,6 +44,8 @@ jobs:
           parameters.locationRG.value=${{ vars.locationRG }}
           parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
           parameters.environment.value=${{ vars.environment }}
+          parameters.tenantId.value=${{ vars.tenantId }}
+          parameters.kvName.value=${{ vars.kvName }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
@@ -63,11 +66,11 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-          az deployment sub validate \
+          az deployment group validate \
             --name validate-${{ github.run_id }} \
+            --resource-group ${{ vars.resourceGroupName }} \
             --template-file IaC/main.bicep \
-            --parameters IaC/parameters_json.json \
-            --location ${{ vars.locationRG }}
+            --parameters IaC/parameters_json.json
 
     # Perform a security scan of the bicep code using checkov
     - name: Run Checkov action
@@ -81,11 +84,11 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-          az deployment sub what-if \
+          az deployment group what-if \
             --name whatif-${{ github.run_id }} \
+            --resource-group ${{ vars.resourceGroupName }} \
             --template-file IaC/main.bicep \
-            --parameters IaC/parameters_json.json \
-            --location ${{ vars.locationRG }} > whatif
+            --parameters IaC/parameters_json.json > whatif
 
     # Create string output of Whatif
     - name: Create String Output
@@ -110,6 +113,10 @@ jobs:
         SUMMARY: ${{ steps.whatif-string.outputs.summary }}
       run: |
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
+    - name: Show What If
+      run: |
+        cat whatif
       
     
   # This workflow contains a second job called "build"
@@ -124,12 +131,38 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    # Checkout the repository to the GitHub Actions runner
+    # Download all the code into the host
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    # Replace Json values with environment variables values
+    - name: Replace values in JSON file
+      uses: tnikFi/json-file-transform@v1
+      with:
+        files: 'IaC/parameters_json.json'
+        key-value-pairs: |
+          parameters.locationRG.value=${{ vars.locationRG }}
+          parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
+          parameters.environment.value=${{ vars.environment }}
+          parameters.tenantId.value=${{ vars.tenantId }}
+          parameters.kvName.value=${{ vars.kvName }}
+
+    # Authenticate to Az CLI using OIDC
+    - name: Azure Login
+      uses: Azure/login@v2.1.0
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Deploy template at the selected scope
+    - name: Bicep Validate
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+          az deployment group create \
+            --name deploy-${{ github.run_id }} \
+            --resource-group ${{ vars.resourceGroupName }} \
+            --template-file IaC/main.bicep \
+            --parameters IaC/parameters_json.json
