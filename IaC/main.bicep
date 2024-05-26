@@ -8,6 +8,8 @@ param environment string
 
 //kv-clasimag-dev-eastus2
 
-resource kv 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
-  name: 'Kv-calssif-test-dev'
+resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {
+  name: 'keyVaultName-testinterno'
+  location: locationRG
 }
+
