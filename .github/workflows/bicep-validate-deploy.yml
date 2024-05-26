@@ -43,6 +43,7 @@ jobs:
           parameters.locationRG.value=${{ vars.locationRG }}
           parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
           parameters.environment.value=${{ vars.environment }}
+          parameters.tenantId.value=${{ vars.tenantId }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
