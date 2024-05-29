@@ -131,6 +131,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+    - uses: trstringer/manual-approval@v1
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: botdenatsu  
+
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
     - name: Checkout

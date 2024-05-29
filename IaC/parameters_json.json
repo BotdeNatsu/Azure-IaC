@@ -16,6 +16,63 @@
     },
     "kvName": {
       "value": "kv-clasimag-dev-eastus2"
+    },
+    "storageAccountName": {
+      "value": "stclasificadorimagenes"
+    },
+    "cosmosAccountName": {
+      "value": "cosmos-clasificadorimagenes-dev-eastus2"
+    },
+    "cosmosPrimaryRegion": {
+      "value": "East US 2"
+    },
+    "cosmosSecondaryRegion": {
+      "value": "Central US"
+    },
+    "cosmosDatabaseName": {
+      "value": "az-cosno-db-dev-eastus2"
+    },
+    "cosmosContainerName": {
+      "value": "item"
+    },
+    "cosmosThroughput": {
+      "value": 400
+    },
+    "computerVisionName": {
+      "value": "cv-clasificadorimagenes-dev-eastus2-01"
+    },
+    "computerVisionSKU": {
+      "value": "S1"
+    },
+    "customVisionName": {
+      "value": "cstvtclasificadorimagentesdeveastus2"
+    },
+    "customVisionSKU": {
+      "value": "S0"
+    },
+    "documentIntelligenceName": {
+      "value": "di-clasificadorimagenes-dev-eastus2"
+    },
+    "documentIntelligenceSKU": {
+      "value": "S0"
+    },
+    "appName": {
+      "value": "clasificadorimagenes-dev-eastus2"
+    },
+    "appSKU": {
+      "value": "P1"
+    },
+    "apiManagementServiceName": {
+      "value": "apim-clasificadorimagenes-dev-eastus2"
+    },
+    "publisherEmailAPIManagement": {
+      "value": "lcubillor@grupoins.com; ocarballot@grupoins.com"
+    },
+    "publisherNameAPIManagement": {
+      "value": "GrupoINS"
+    },
+    "APIManagementSKU": {
+      "value": "Basic"
     }
   }
 }
