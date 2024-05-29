@@ -92,11 +92,12 @@ jobs:
             --parameters IaC/parameters_json.json
 
     # Perform a security scan of the bicep code using checkov
-    - name: Run Checkov action
-      id: checkov
-      uses: bridgecrewio/checkov-action@master
-      with: 
-        framework: bicep
+    # Recommended for Network enclosed Deployments
+    # - name: Run Checkov action
+    #   id: checkov
+    #   uses: bridgecrewio/checkov-action@master
+    #   with: 
+    #     framework: bicep
     
     # Preview changes
     - name: What-If
