@@ -154,7 +154,7 @@ jobs:
     - uses: trstringer/manual-approval@v1
       with:
         secret: ${{ github.TOKEN }}
-        approvers: botdenatsu  
+        approvers: BotdeNatsu
 
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
