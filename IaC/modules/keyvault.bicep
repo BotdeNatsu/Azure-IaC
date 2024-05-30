@@ -1,8 +1,11 @@
 //Global Parameters
-param locationRG string
+@description('The location of the Resource Group')
+param locationRG string = resourceGroup().location
+@description('The valuo of the Tenant ID')
 param tenantId string
 
 //Key Vault Parameters
+@description('The name of the Key Vault')
 param kvName string
 
 resource kv 'Microsoft.KeyVault/vaults@2021-11-01-preview' = {

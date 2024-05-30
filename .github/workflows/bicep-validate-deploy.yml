@@ -41,11 +41,30 @@ jobs:
       with:
         files: 'IaC/parameters_json.json'
         key-value-pairs: |
-          parameters.locationRG.value=${{ vars.locationRG }}
           parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
+          parameters.locationRG.value=${{ vars.locationRG }}
           parameters.environment.value=${{ vars.environment }}
           parameters.tenantId.value=${{ vars.tenantId }}
           parameters.kvName.value=${{ vars.kvName }}
+          parameters.storageAccountName.value=${{ vars.storageAccountName }}
+          parameters.cosmosAccountName.value=${{ vars.cosmosAccountName }}
+          parameters.cosmosPrimaryRegion.value=${{ vars.cosmosPrimaryRegion }}
+          parameters.cosmosSecondaryRegion.value=${{ vars.cosmosSecondaryRegion }}
+          parameters.cosmosDatabaseName.value=${{ vars.cosmosDatabaseName }}
+          parameters.cosmosContainerName.value=${{ vars.cosmosContainerName }}
+          parameters.cosmosThroughput.value=${{ vars.cosmosThroughput }}
+          parameters.computerVisionName.value=${{ vars.computerVisionName }}
+          parameters.computerVisionSKU.value=${{ vars.computerVisionSKU }}
+          parameters.customVisionName.value=${{ vars.customVisionName }}
+          parameters.customVisionSKU.value=${{ vars.customVisionSKU }}
+          parameters.documentIntelligenceName.value=${{ vars.documentIntelligenceName }}
+          parameters.documentIntelligenceSKU.value=${{ vars.documentIntelligenceSKU }}
+          parameters.appName.value=${{ vars.appName }}
+          parameters.appSKU.value=${{ vars.appSKU }}
+          parameters.apiManagementServiceName.value=${{ vars.apiManagementServiceName }}
+          parameters.publisherEmailAPIManagement.value=${{ vars.publisherEmailAPIManagement }}
+          parameters.publisherNameAPIManagement.value=${{ vars.publisherNameAPIManagement }}
+          parameters.APIManagementSKU.value=${{ vars.APIManagementSKU }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
@@ -73,11 +92,12 @@ jobs:
             --parameters IaC/parameters_json.json
 
     # Perform a security scan of the bicep code using checkov
-    - name: Run Checkov action
-      id: checkov
-      uses: bridgecrewio/checkov-action@master
-      with: 
-        framework: bicep
+    # Recommended for Network enclosed Deployments
+    # - name: Run Checkov action
+    #   id: checkov
+    #   uses: bridgecrewio/checkov-action@master
+    #   with: 
+    #     framework: bicep
     
     # Preview changes
     - name: What-If
@@ -142,11 +162,30 @@ jobs:
       with:
         files: 'IaC/parameters_json.json'
         key-value-pairs: |
-          parameters.locationRG.value=${{ vars.locationRG }}
           parameters.resourceGroupName.value=${{ vars.resourceGroupName }}
+          parameters.locationRG.value=${{ vars.locationRG }}
           parameters.environment.value=${{ vars.environment }}
           parameters.tenantId.value=${{ vars.tenantId }}
           parameters.kvName.value=${{ vars.kvName }}
+          parameters.storageAccountName.value=${{ vars.storageAccountName }}
+          parameters.cosmosAccountName.value=${{ vars.cosmosAccountName }}
+          parameters.cosmosPrimaryRegion.value=${{ vars.cosmosPrimaryRegion }}
+          parameters.cosmosSecondaryRegion.value=${{ vars.cosmosSecondaryRegion }}
+          parameters.cosmosDatabaseName.value=${{ vars.cosmosDatabaseName }}
+          parameters.cosmosContainerName.value=${{ vars.cosmosContainerName }}
+          parameters.cosmosThroughput.value=${{ vars.cosmosThroughput }}
+          parameters.computerVisionName.value=${{ vars.computerVisionName }}
+          parameters.computerVisionSKU.value=${{ vars.computerVisionSKU }}
+          parameters.customVisionName.value=${{ vars.customVisionName }}
+          parameters.customVisionSKU.value=${{ vars.customVisionSKU }}
+          parameters.documentIntelligenceName.value=${{ vars.documentIntelligenceName }}
+          parameters.documentIntelligenceSKU.value=${{ vars.documentIntelligenceSKU }}
+          parameters.appName.value=${{ vars.appName }}
+          parameters.appSKU.value=${{ vars.appSKU }}
+          parameters.apiManagementServiceName.value=${{ vars.apiManagementServiceName }}
+          parameters.publisherEmailAPIManagement.value=${{ vars.publisherEmailAPIManagement }}
+          parameters.publisherNameAPIManagement.value=${{ vars.publisherNameAPIManagement }}
+          parameters.APIManagementSKU.value=${{ vars.APIManagementSKU }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login

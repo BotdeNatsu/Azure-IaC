@@ -1,0 +1,63 @@
+Automóvil FRONTAL con PLACA VALIDA
+{
+    "status": "SUCCESS", // REPEAT, REVIEW
+    "img_location": "Y6L146_RFFRE",
+    "applied_fuctions": [],
+    "vehicle_type": {
+        "label": "Automóvil",
+        "probability": 98.99
+    },
+    "photo_type": {
+        "label": "FRONTAL",
+        "probability": 99.99
+    },
+    "vin": {
+        "text": null,
+        "probability": null
+    },
+    "plate": {
+        "text": "MSM291",
+        "probability": 98.77
+    }
+}
+
+DOCUMENTO
+{
+    "status": "SUCCESS", // REPEAT, REVIEW
+    "img_location": "Y6L146_RFFRE",
+    "applied_fuctions": [],
+    "vehicle_type": {
+        "label": null,
+        "probability": null
+    },
+    "photo_type": {
+        "label": "DOCUMENTO",
+        "probability": 99.99
+    },
+    "vin": {
+        "text": "SHFJF598623",
+        "probability": 98.10
+    },
+    "plate": {
+        "text": "MSM291",
+        "probability": 98.77
+    }
+}
+
+
+/work-zone
+    /training-data
+        /Automóvil
+        /Camión
+        /Motocicleta
+        /DOCUMENTOS
+    /model-config
+        /document-intelligence
+            ...
+
+1. Organizacion Storage
+2. Taggeo de Documentos y entrenamiento de modelo (102)
+3. Revisión y clasificación de problemas con documentos
+4. Extracción de Placa y VIN del documento
+5. Avances en la construcción de la lógica
+6. [NEXT] post-procesamiento (VIN y DOCUMENTO)
