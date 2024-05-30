@@ -65,6 +65,7 @@ jobs:
           parameters.publisherEmailAPIManagement.value=${{ vars.publisherEmailAPIManagement }}
           parameters.publisherNameAPIManagement.value=${{ vars.publisherNameAPIManagement }}
           parameters.APIManagementSKU.value=${{ vars.APIManagementSKU }}
+          parameters.PYTHON_VERSION.value=${{ vars.PYTHON_VERSION }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login
@@ -186,6 +187,7 @@ jobs:
           parameters.publisherEmailAPIManagement.value=${{ vars.publisherEmailAPIManagement }}
           parameters.publisherNameAPIManagement.value=${{ vars.publisherNameAPIManagement }}
           parameters.APIManagementSKU.value=${{ vars.APIManagementSKU }}
+          parameters.PYTHON_VERSION.value=${{ vars.PYTHON_VERSION }}
 
     # Authenticate to Az CLI using OIDC
     - name: Azure Login

@@ -70,6 +70,9 @@ param documentIntelligenceSKU string
 @description('The name of the function app that you wish to create.')
 param appName string
 
+@description('The version of python the function app that you wish to create.')
+param PYTHON_VERSION string
+
 @description('The pricing tier for the hosting plan.')
 @allowed([
   'D1'
@@ -177,6 +180,7 @@ module af 'modules/functionapp.bicep' = {
   ]
   params: {
     appName: appName
+    PYTHON_VERSION: PYTHON_VERSION
     appSKU: appSKU
     storageAccountId: sa.outputs.storageAccountId
     storageAccountName: storageAccountName
