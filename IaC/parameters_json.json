@@ -73,6 +73,9 @@
     },
     "APIManagementSKU": {
       "value": "Basic"
+    },
+    "PYTHON_VERSION": {
+      "value": "3.10"
     }
   }
 }

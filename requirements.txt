@@ -1,0 +1,24 @@
+# Python 3.12.2
+seedir==0.4.2
+emoji==2.11.1
+pytz==2023.3.post1
+
+requests==2.31.0
+
+# Visualization
+seaborn==0.13.2
+
+# Azure
+azure-ai-vision-imageanalysis==1.0.0b2 # Computer Vision
+azure-ai-formrecognizer==3.3.3 # Document Intelligence v2023-07-31
+azure-functions==1.19.0 # Azure Functions
+azure-cosmos==4.5.1 # Azure Cosmos DB
+azure-storage-blob==12.14.1 # Azure Storage Account
+# [NEXT] azure-ai-documentintelligence for later vaersions
+# azure-cognitiveservices-vision-customvision==3.1.0
+# azure-cognitiveservices-vision-computervision==0.9.0
+# azure-ai-vision-imageanalysis
+# easyocr==1.7.1
+
+# Others
+vininfo==1.8.0
