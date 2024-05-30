@@ -2,6 +2,9 @@
 @description('The name of the function app that you wish to create.')
 param appName string
 
+@description('The version of python the function app that you wish to create.')
+param PYTHON_VERSION string
+
 @description('The pricing tier for the hosting plan.')
 @allowed([
   'D1'
@@ -89,7 +92,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     clientAffinityEnabled: false
     siteConfig: {
       alwaysOn: false
-      linuxFxVersion: 'PYTHON|3.10'
+      linuxFxVersion: 'PYTHON|${PYTHON_VERSION}'
     }
     httpsOnly: true
   }
