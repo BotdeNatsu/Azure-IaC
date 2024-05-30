@@ -13,7 +13,7 @@ param customVisionSKU string
 param location string = resourceGroup().location
 
 //Set Variables
-var customVisionNameTraining = '${customVisionName}-Training'
+var customVisionNameTraining = customVisionName
 var customVisionNamePrediction = '${customVisionName}-Prediction'
 
 resource customVisionTraining 'Microsoft.CognitiveServices/accounts@2022-03-01' = {
@@ -24,6 +24,7 @@ resource customVisionTraining 'Microsoft.CognitiveServices/accounts@2022-03-01' 
     name: customVisionSKU
   }
   properties: {
+    customSubDomainName: customVisionNameTraining
   }
 }
 
@@ -35,5 +36,6 @@ resource customVisionPrediction 'Microsoft.CognitiveServices/accounts@2022-03-01
     name: customVisionSKU
   }
   properties: {
+    customSubDomainName: customVisionNamePrediction
   }
 }
