@@ -151,16 +151,6 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-    - name: pipeline-approval
-      # You may pin to the exact commit or the version.
-      # uses: khimananda/slack-approval@8cdceb8d71422ce59d5b4534533bd94e700a7640
-      uses: khimananda/slack-approval@v1.5  
-
-    - uses: trstringer/manual-approval@v1
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: BotdeNatsu
-
     # Checkout the repository to the GitHub Actions runner
     # Download all the code into the host
     - name: Checkout
