@@ -56,3 +56,14 @@ jobs:
         package: '.'
         scm-do-build-during-deployment: true
         enable-oryx-build: true
+
+    # Deploy template at the selected scope
+    - name: Set Environment Variables
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+          az functionapp config appsettings set \
+            --name func-${{ vars.appName }} \
+            --resource-group ${{ vars.resourceGroupName }} \
+            --settings DATABASE_ID=${{ vars.cosmosDatabaseName }} \
+            CONTAINER_ID=${{ vars.cosmosContainerName }}
