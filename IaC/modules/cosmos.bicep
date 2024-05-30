@@ -103,6 +103,9 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
     defaultIdentity: 'FirstPartyIdentity'
     networkAclBypass: 'AzureServices'
     disableLocalAuth: false
+    capacity:{
+      totalThroughputLimit:4000
+    }
   }
 }
 
@@ -122,12 +125,14 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       id: containerName
       partitionKey: {
         paths: [
-          '/myPartitionKey'
+          '/Guid'
         ]
         kind: 'Hash'
+        version: 2
       }
       indexingPolicy: {
         indexingMode: 'consistent'
+        automatic: true
         includedPaths: [
           {
             path: '/*'
@@ -165,15 +170,9 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
           }
         ]
       }
-      defaultTtl: 86400
+      defaultTtl: null
       uniqueKeyPolicy: {
-        uniqueKeys: [
-          {
-            paths: [
-              '/phoneNumber'
-            ]
-          }
-        ]
+        uniqueKeys: []
       }
     }
     options: {
