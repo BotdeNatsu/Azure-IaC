@@ -170,7 +170,6 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
           }
         ]
       }
-      defaultTtl: null
       uniqueKeyPolicy: {
         uniqueKeys: []
       }

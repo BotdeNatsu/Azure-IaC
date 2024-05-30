@@ -65,11 +65,14 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   location: location
   sku: {
     name: appSKU
+
   }
   kind: 'elastic'
   properties: {
     elasticScaleEnabled: true
     isSpot: false
+    reserved: true
+    maximumElasticWorkerCount: 20
   }
 }
 
