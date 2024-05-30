@@ -31,7 +31,7 @@ resource sa 'Microsoft.Storage/storageAccounts@2022-09-01' = {
 }
 
 resource container1 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = {
-  name: '${sa.name}/default/work-zone}'
+  name: '${sa.name}/default/work-zone'
 }
 
 resource container2 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = {
