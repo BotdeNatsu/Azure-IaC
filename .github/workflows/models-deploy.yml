@@ -22,10 +22,137 @@ jobs:
 
     steps:
 
-    # Deploy template at the selected scope
+    # Deploy Custom Vision Model and publish
     - name: Set Environment Variables
       uses: Azure/cli@v2
       with:
         inlineScript: |
-            curl -v -X GET "https://cstvtclasificadorimagentesdeveastus2.cognitiveservices.azure.com/customvision/v3.3/Training/projects" \
-            -H "Training-key: 1096a6e3efd14342a3b0527afb74d444"
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $TrainingKeySource = "${{ vars.customVisionTrainingKeySource }}"
+          $headers.Add("Training-key", $TrainingKeySource)
+          
+          $projectName = "${{ vars.customVisionProjectName }}"
+          $idProject = "0"
+          
+          $customVisionSourceURL = "https://${{ vars.customVisionNameExport }}.cognitiveservices.azure.com/"
+          $endpoint_GetProjects = "customvision/v3.3/Training/projects"
+          
+          
+          $URI_Request_GetProjects = $customVisionSourceURL+$endpoint_GetProjects
+          
+          #Get Project ID
+          $response = (Invoke-RestMethod $URI_Request_GetProjects -Method 'GET' -Headers $headers)
+          
+          
+          for ($i = 0; $i -lt $response.Length; $i++)
+          {
+              if ( $projectName -eq $response[$i].name )
+              {
+                  # do something
+                  $idProject = $response[$i].id
+                  break
+              }
+          }
+          
+          if ( $idProject -eq "0" )
+              {
+                  # do something
+                  Write-Host "No existe un proyecto con el nombre $projectName"
+                  
+              }
+          
+          Write-Host $idProject
+          
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $headers.Add("Training-key", $Training_key)
+          
+          $endpoint_GetExport = "customvision/v3.3/Training/projects/$idProject/export?Training-key=$TrainingKeySource"
+          
+          $URI_Request_GetExport = $customVisionSourceURL+$endpoint_GetExport
+          
+          #Get Export Project Token
+          $token = (Invoke-RestMethod $URI_Request_GetExport -Method 'GET').token
+          
+          Write-Host $token
+          
+          $TrainingKeySink = "2dd08ce8b7eb44e985dbd8b8bde489dc"
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $headers.Add("Training-key", $TrainingKeySink)
+          $headers.Add("Content-Length", 0)
+          
+          $projectNameSink = "${{ vars.customVisionProjectName }}"
+          
+          $tokenReplaced = $token.Replace("&","%26")
+          
+          $customVisionSinkURL = "https://${{ vars.customVisionName }}.cognitiveservices.azure.com/"
+          $endpoint_ImportProject = "customvision/v3.3/Training/projects/import?token=$tokenReplaced&name=$projectNameSink"
+          
+          $URI_Request_ImportProject = $customVisionSinkURL+$endpoint_ImportProject
+          
+          $response = (Invoke-RestMethod $URI_Request_ImportProject -Method 'POST' -Headers $headers)
+          
+          Write-Host $response
+          
+    # Deploy Document Intelligence Model
+    - name: Set Environment Variables
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $documentIntelligenceTargetKey = "5a559ac95dec4e90aa66cd68d477307f"
+          $headers.Add("Ocp-Apim-Subscription-Key", $documentIntelligenceTargetKey)
+
+
+          $documentIntelligenceSourceURL = "https://eastus2.api.cognitive.microsoft.com/"
+          $endpoint_AuthorizeCopy = "formrecognizer/documentModels:authorizeCopy?api-version=2022-08-31"
+
+
+          $URI_Request_AuthorizeCopy = $documentIntelligenceSourceURL+$endpoint_AuthorizeCopy
+
+          $documentIntelligenceModelName = "Iteracion2-neural"
+
+          $params = @{
+          "modelId"=$documentIntelligenceModelName
+          "description"="Taggeo de VIN y Placa para todos los 102 documentos"
+          } | ConvertTo-Json
+
+
+          try {
+              #Get Copy Auth
+              $response = (Invoke-RestMethod $URI_Request_AuthorizeCopy -Method 'POST' -Headers $headers -Body $params -ContentType "application/json")
+              Write-Host $response
+              $status = "Succes"
+          } catch {
+              # Dig into the exception to get the Response details.
+              # Note that value__ is not a typo.
+              Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+              Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+              $status = "Conflict"
+
+          }
+
+          if ( $status -eq "Conflict" )
+              {
+
+                  Write-Host "Nombre del proyecto ocupado"
+                  
+              }
+
+          #Copy 
+
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $documentIntelligenceSourceKey = "1bcc168accb740f09a59b7313db475a4"
+          $headers.Add("Ocp-Apim-Subscription-Key", $documentIntelligenceSourceKey)
+
+
+          $documentIntelligenceSourceURL = "https://eastus2.api.cognitive.microsoft.com/"
+          $endpoint_Copy = "formrecognizer/documentModels/$documentIntelligenceModelName:copyTo?api-version=2022-08-31"
+
+          $params = @{
+          "modelId"=$documentIntelligenceModelName
+          "description"="Taggeo de VIN y Placa para todos los 102 documentos"
+          } | ConvertTo-Json
+
+          $URI_Request_Copy = $documentIntelligenceSourceURL+$endpoint_Copy
+          $response = (Invoke-RestMethod $URI_Request_Copy -Method 'POST' -Headers $headers -Body $response -ContentType "application/json")
