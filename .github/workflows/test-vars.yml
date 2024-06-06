@@ -18,13 +18,13 @@ jobs:
       uses: azure/powershell@v2
       with:
         inlineScript: |
-          $params = @"
+          $variables_json = @"
           ${{ vars.FUNCTION_VARIABLES }}
           "@
 
-          $test = ConvertFrom-Json $params
+          $variables = ConvertFrom-Json $variables_json
 
-          Write-Host $test.VISION_PREDICTION_ENDPOINT
+          Write-Host $variables.VISION_PREDICTION_ENDPOINT
           
         azPSVersion: "latest"
 
