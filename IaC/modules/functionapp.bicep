@@ -87,20 +87,43 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     type:'SystemAssigned'
   }
   properties: {
-    reserved: true
+    enabled: true
+    hostNameSslStates: [
+      {
+        name: '${functionAppName}.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Standard'
+      }
+      {
+        name: '${functionAppName}.scm.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Repository'
+      }
+    ]
     serverFarmId: hostingPlan.id
-    clientAffinityEnabled: false
+    reserved: true
+    isXenon: false
+    hyperV: false
+    vnetRouteAllEnabled: false
+    vnetImagePullEnabled: false
+    vnetContentShareEnabled: false
     siteConfig: {
-      alwaysOn: false
+      numberOfWorkers: 1
       linuxFxVersion: 'PYTHON|${PYTHON_VERSION}'
+      acrUseManagedIdentityCreds: false
+      alwaysOn: false
+      http20Enabled: false
+      functionAppScaleLimit: 200
+      minimumElasticInstanceCount: 0
       appSettings: [
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'python'
-        }
+        
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'python'
         }
         {
           name: 'AzureWebJobsStorage'
@@ -109,10 +132,18 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: reference(applicationInsights.id, '2020-02-02').InstrumentationKey
-        }
-      ]
+        } 
+    ]
     }
+    scmSiteAlsoStopped: false
+    clientAffinityEnabled: false
+    clientCertEnabled: false
+    clientCertMode: 'Required'
+    hostNamesDisabled: false
+    dailyMemoryTimeQuota: 0
     httpsOnly: true
-    
+    redundancyMode: 'None'
+    publicNetworkAccess: 'Enabled'
+    keyVaultReferenceIdentity: 'SystemAssigned'
   }
 }
