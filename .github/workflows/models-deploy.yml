@@ -1,12 +1,10 @@
-#https://cstvtclasificadorimagentesdeveastus2.cognitiveservices.azure.com/customvision/v3.3/Training/projects/077a7a83-5a6f-4a47-a946-374814e786f4/export?Training-key=1096a6e3efd14342a3b0527afb74d444
-
 name: Deploy Models between Environments
 
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: 
-    - main
+  #push:
+    #branches: 
+    #- main
   #pull_request:
     #branches:
     #- main
