@@ -19,6 +19,10 @@ jobs:
       with:
         inlineScript: |
           echo Prueba completa
-          $varTest = ${{ vars.FUNCTION_VARIABLES}} | ConvertTo-Json
-          echo $varTest.VISION_PREDICTION_ENDPOINT
+          $params = @{
+            "modelId"="test"
+            "description"="Taggeo de VIN y Placa para todos los 102 documentos"
+          } | ConvertTo-Json
+          echo $params.description
+          
           
