@@ -19,7 +19,6 @@ jobs:
       with:
         inlineScript: |
           echo Prueba completa
-          echo ${{ vars.FUNCTION_VARIABLES}} | ConvertTo-Json
           $varTest = ${{ vars.FUNCTION_VARIABLES}} | ConvertTo-Json
           echo $varTest.VISION_PREDICTION_ENDPOINT
           
