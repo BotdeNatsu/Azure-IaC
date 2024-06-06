@@ -19,15 +19,12 @@ jobs:
       with:
         inlineScript: |
           $params = @"
-          {
-              "modelId":"test",
-              "description":"Taggeo de VIN y Placa para todos los 102 documentos"
-          }
+          ${{ vars.FUNCTION_VARIABLES }}
           "@
 
           $test = ConvertFrom-Json $params
-          
-          Write-Host $test.description
+
+          Write-Host $test.VISION_PREDICTION_ENDPOINT
           
         azPSVersion: "latest"
           
