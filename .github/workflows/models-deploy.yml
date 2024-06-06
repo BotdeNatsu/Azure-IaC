@@ -202,7 +202,7 @@ jobs:
           
           $documentIntelligenceModelName = $variables.DOCUMENT_INTELLIGENCE_MODEL_ID
           
-          $documentIntelligenceTargetModelName = $variables.DOCUMENT_INTELLIGENCE_MODEL_ID+"-TEST1"
+          $documentIntelligenceTargetModelName = $variables.DOCUMENT_INTELLIGENCE_MODEL_ID
           
           $params = @{
           "modelId"=$documentIntelligenceTargetModelName
