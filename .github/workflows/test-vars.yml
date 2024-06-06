@@ -1,0 +1,21 @@
+name: Deploy Models between Environments
+
+on:
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on:  ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+
+    steps:
+
+    # Deploy Custom Vision Model and publish
+    - name: Test Vars
+      uses: Azure/cli@v2
+      with:
+        inlineScript: |
+          echo ${{ vars.FUNCTION_VARIABLES.VISION_PREDICTION_ENDPOINT }}
