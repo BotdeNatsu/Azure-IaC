@@ -1,4 +1,4 @@
-name: Deploy Models between Environments
+name: test
 
 on:
   
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on:  ubuntu-latest
     environment:
       name: ${{ github.ref_name }}
@@ -18,4 +18,8 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
+          echo Prueba concatenada
           echo ${{ vars.FUNCTION_VARIABLES.VISION_PREDICTION_ENDPOINT }}
+          echo Prueba completa
+          echo ${{ vars.FUNCTION_VARIABLES}}
+          
