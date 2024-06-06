@@ -15,14 +15,15 @@ jobs:
 
     # Deploy Custom Vision Model and publish
     - name: Test Vars
-      uses: Azure/cli@v2
+      uses: azure/powershell@v2
       with:
         inlineScript: |
-          echo Prueba completa
+          Write-Host Prueba completa
           $params = @{
             "modelId"="test"
             "description"="Taggeo de VIN y Placa para todos los 102 documentos"
           } | ConvertTo-Json
-          echo $params.description
+          Write-Host $params.description
+        azPSVersion: "latest"
           
           
