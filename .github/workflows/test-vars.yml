@@ -18,8 +18,8 @@ jobs:
       uses: Azure/cli@v2
       with:
         inlineScript: |
-          echo Prueba concatenada
-          echo ${{ vars.FUNCTION_VARIABLES.VISION_PREDICTION_ENDPOINT }}
           echo Prueba completa
-          echo ${{ vars.FUNCTION_VARIABLES}}
+          echo ${{ vars.FUNCTION_VARIABLES}} | ConvertTo-Json
+          $varTest = ${{ vars.FUNCTION_VARIABLES}} | ConvertTo-Json
+          echo $varTest.VISION_PREDICTION_ENDPOINT
           
