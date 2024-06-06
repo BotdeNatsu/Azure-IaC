@@ -18,13 +18,17 @@ jobs:
       uses: azure/powershell@v2
       with:
         inlineScript: |
-          Write-Host Prueba completa
-          $params = @{
-            "modelId"="test"
-            "description"="Taggeo de VIN y Placa para todos los 102 documentos"
-          } | ConvertTo-Json
-          Write-Host $params.description
-          Write-Host Prueba Finalizada
+          $params = @"
+          {
+              "modelId":"test",
+              "description":"Taggeo de VIN y Placa para todos los 102 documentos"
+          }
+          "@
+
+          $test = ConvertFrom-Json $params
+          
+          Write-Host $test.description
+          
         azPSVersion: "latest"
           
           
