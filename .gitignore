@@ -7,6 +7,7 @@ __pycache__
 local.settings.json
 test
 .venv
-
+json_dev.json
+json_qa.json
 work-zone
 # Aux_files
