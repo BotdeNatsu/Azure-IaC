@@ -56,9 +56,9 @@ def VisionPrediction(req: func.HttpRequest) -> func.HttpResponse:
             elif n_labels == 2:
 
                 cond_trasera = (photo_type == 'TRASERA') and \
-                               (vehicle_type in VEHICLE_TYPES)
+                                (vehicle_type in VEHICLE_TYPES)
                 cond_frontal = (photo_type == 'FRONTAL') and \
-                               (vehicle_type != 'Motocicleta')
+                                (vehicle_type != 'Motocicleta')
                 
                 if cond_trasera or cond_frontal:
                     img.detect_plate()
@@ -113,3 +113,4 @@ def VisionPrediction(req: func.HttpRequest) -> func.HttpResponse:
             status_code=500,
             mimetype='application/json'
         )
+    
