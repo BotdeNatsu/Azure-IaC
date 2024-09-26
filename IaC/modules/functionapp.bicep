@@ -87,26 +87,63 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
     type:'SystemAssigned'
   }
   properties: {
-    reserved: true
+    enabled: true
+    hostNameSslStates: [
+      {
+        name: '${functionAppName}.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Standard'
+      }
+      {
+        name: '${functionAppName}.scm.azurewebsites.net'
+        sslState: 'Disabled'
+        hostType: 'Repository'
+      }
+    ]
     serverFarmId: hostingPlan.id
-    clientAffinityEnabled: false
+    reserved: true
+    isXenon: false
+    hyperV: false
+    vnetRouteAllEnabled: false
+    vnetImagePullEnabled: false
+    vnetContentShareEnabled: false
     siteConfig: {
-      alwaysOn: false
+      numberOfWorkers: 1
       linuxFxVersion: 'PYTHON|${PYTHON_VERSION}'
+      acrUseManagedIdentityCreds: false
+      alwaysOn: false
+      http20Enabled: false
+      functionAppScaleLimit: 200
+      minimumElasticInstanceCount: 0
+      appSettings: [
+        
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'python'
+        }
+        {
+          name: 'AzureWebJobsStorage'
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccountId, '2021-09-01').keys[0].value}'
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: reference(applicationInsights.id, '2020-02-02').InstrumentationKey
+        } 
+    ]
     }
+    scmSiteAlsoStopped: false
+    clientAffinityEnabled: false
+    clientCertEnabled: false
+    clientCertMode: 'Required'
+    hostNamesDisabled: false
+    dailyMemoryTimeQuota: 0
     httpsOnly: true
-  }
-}
-
-resource appsettings 'Microsoft.Web/sites/config@2022-03-01' = {
-  parent: functionApp
-  name: 'appsettings'
-  properties: {
-    AzureWebJobsStorage: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${listKeys(storageAccountId, '2021-09-01').keys[0].value}'
-    APPINSIGHTS_INSTRUMENTATIONKEY: reference(applicationInsights.id, '2020-02-02').InstrumentationKey
-    FUNCTIONS_EXTENSION_VERSION: '~4'
-    FUNCTIONS_WORKER_RUNTIME: 'python'
-    ftpsState: 'Disabled'
-    minTlsVersion: '1.2'
+    redundancyMode: 'None'
+    publicNetworkAccess: 'Enabled'
+    keyVaultReferenceIdentity: 'SystemAssigned'
   }
 }

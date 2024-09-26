@@ -15,11 +15,26 @@ jobs:
 
     # Deploy Custom Vision Model and publish
     - name: Test Vars
-      uses: Azure/cli@v2
+      uses: azure/powershell@v2
       with:
         inlineScript: |
-          echo Prueba concatenada
-          echo ${{ vars.FUNCTION_VARIABLES.VISION_PREDICTION_ENDPOINT }}
-          echo Prueba completa
-          echo ${{ vars.FUNCTION_VARIABLES}}
+          $variables_json = @"
+          ${{ vars.FUNCTION_VARIABLES }}
+          "@
+
+          $variables = ConvertFrom-Json $variables_json
+
+          Write-Host $variables.VISION_PREDICTION_ENDPOINT
+          
+        azPSVersion: "latest"
+
+    - name: Test Vars 2 Reusing
+      uses: azure/powershell@v2
+      with:
+        inlineScript: |
+          
+          Write-Host $test.COMPUTER_VISION_KEY
+          
+        azPSVersion: "latest"    
+          
           
